@@ -1,0 +1,111 @@
+/* =====================================================
+   tinta-style.css — Estilo editorial Tinta
+   Fuentes: Cormorant Garamond + Pinyon Script
+   ===================================================== */
+
+:root {
+  --papel:      #faf9f6;
+  --tinta:      #1a1a18;
+  --tinta-suave:#4a4a44;
+  --oxido:      #8b3a2a;
+  --oxido-suave:#c46a56;
+  --linea:      rgba(26,26,24,0.1);
+  --sombra:     rgba(26,26,24,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  background: #e8e5de;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  font-family: 'Cormorant Garamond', Garamond, Georgia, serif;
+}
+
+/* ─── Carta ─────────────────────────────────────────── */
+.carta {
+  position: relative;
+  width: min(660px, 100%);
+  background: var(--papel);
+  padding: 4rem 4.5rem 4.5rem;
+  border-left: 3px solid var(--oxido);
+  box-shadow:
+    4px 0 0 0 var(--oxido-suave),
+    0 8px 32px var(--sombra),
+    0 32px 64px rgba(26,26,24,.07);
+}
+
+/* Número de página */
+.carta::before {
+  content: '·  i  ·';
+  position: absolute;
+  top: 1.6rem; right: 2.2rem;
+  font-size: .7rem;
+  letter-spacing: .3em;
+  color: var(--tinta-suave);
+  opacity: .35;
+  font-style: italic;
+}
+
+/* Línea roja base */
+.carta::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(to right, var(--oxido) 0%, var(--oxido-suave) 60%, transparent 100%);
+}
+
+/* ─── Párrafos ──────────────────────────────────────── */
+.parrafo {
+  font-size: 1.18rem;
+  font-weight: 300;
+  line-height: 2;
+  color: var(--tinta);
+  text-align: left;
+  hyphens: none;
+  margin-bottom: 1.6rem;
+  letter-spacing: .01em;
+}
+
+.parrafo:first-of-type::first-letter { }
+
+.drop-cap::first-letter {
+  font-size: 4.2rem; line-height: .72;
+  float: left; margin: .04em .1em 0 0;
+  color: var(--oxido);
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* ─── Firma ─────────────────────────────────────────── */
+.firma-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--linea);
+}
+
+.firma-nombre {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 2.8rem;
+  color: var(--tinta-suave);
+  display: inline-block;
+  position: relative;
+  line-height: 1;
+}
+
+.firma-nombre::after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 40%;
+  background: var(--oxido);
+  margin-top: .3rem;
+  opacity: .45;
+}
