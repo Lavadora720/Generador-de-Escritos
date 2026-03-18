@@ -1,8 +1,9 @@
 /* =====================================================
    petalo.js
-   Lee contenido.json e inyecta el texto y la firma
-   en la carta. No tocar salvo para cambiar lógica.
-   Para cambiar texto → editar contenido.json
+   Lee contenido.json e inyecta todo en la carta:
+   ornamentos, divisores, párrafos y firma.
+   No tocar salvo para cambiar lógica.
+   Para cambiar contenido → editar contenido.json
    ===================================================== */
 
 fetch('contenido.json')
@@ -12,21 +13,32 @@ fetch('contenido.json')
   })
   .then(data => {
 
-    /* ── Firma ────────────────────────────────────────── */
-    const firmaEl = document.getElementById('firma');
-    if (firmaEl) firmaEl.textContent = data.firma || '';
+    const carta = document.getElementById('carta');
+    const contenedorEl = document.getElementById('contenido');
+    const firmaWrap = document.querySelector('.firma-wrap');
+
+    /* ── Ornamento superior ───────────────────────────── */
+    if (data.ornamento_top) {
+      const div = document.createElement('div');
+      div.className   = 'ornamento-top';
+      div.textContent = data.ornamento_top;
+      carta.insertBefore(div, contenedorEl);
+    }
+
+    /* ── Divisor superior ─────────────────────────────── */
+    if (data.divisor_top) {
+      const div = document.createElement('div');
+      div.className = 'divider';
+      div.innerHTML = `<hr/><span>${data.divisor_top}</span><hr/>`;
+      carta.insertBefore(div, contenedorEl);
+    }
 
     /* ── Párrafos ─────────────────────────────────────── */
-    const contenedorEl = document.getElementById('contenido');
     if (!contenedorEl) return;
 
     data.parrafos.forEach(parrafo => {
       const p = document.createElement('p');
-
-      // Clases base
       p.classList.add('parrafo');
-
-      // Letra capitular si está marcado en el JSON
       if (parrafo.drop_cap) p.classList.add('drop-cap');
 
       // Soporte para saltos de línea con \n en el JSON
@@ -38,6 +50,18 @@ fetch('contenido.json')
 
       contenedorEl.appendChild(p);
     });
+
+    /* ── Divisor inferior ─────────────────────────────── */
+    if (data.divisor_bottom) {
+      const div = document.createElement('div');
+      div.className = 'divider-bottom';
+      div.innerHTML = `<hr/><span>${data.divisor_bottom}</span><hr/>`;
+      carta.insertBefore(div, firmaWrap);
+    }
+
+    /* ── Firma ────────────────────────────────────────── */
+    const firmaEl = document.getElementById('firma');
+    if (firmaEl) firmaEl.textContent = data.firma || '';
 
   })
   .catch(err => {
